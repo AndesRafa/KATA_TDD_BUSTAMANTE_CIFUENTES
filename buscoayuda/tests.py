@@ -12,8 +12,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 class Test(TestCase):
     def setUp(self):
-        self.browser = webdriver.Chrome("C:\\Users\\JUAN CIFUENTES\\chromedriver.exe")
-        #self.browser = webdriver.Firefox()
+        # self.browser = webdriver.Chrome("C:\\Users\\JUAN CIFUENTES\\chromedriver.exe")
+        self.browser = webdriver.Firefox()
 
         self.browser.implicitly_wait(2)
 
@@ -30,7 +30,7 @@ class Test(TestCase):
         link = driver.find_element_by_id('id_register')
         link.click()
 
-        wait = WebDriverWait(driver, 10);
+        wait = WebDriverWait(driver, 10)
         element = wait.until(EC.element_to_be_clickable((By.ID, 'register_modal')))
 
         nombre = driver.find_element_by_id('id_nombre')
@@ -51,7 +51,7 @@ class Test(TestCase):
         correo.send_keys('jd.patino1@uniandes.edu.co')
 
         imagen = driver.find_element_by_id('id_imagen')
-        imagen.send_keys('C:\Users\JUAN CIFUENTES\Desktop\Maestria\Tercero Maestria\procesos agiles\imagenes Kata 2\carpintero.jpg')
+        imagen.send_keys('C:\\Users\\JUAN CIFUENTES\\Desktop\\Maestria\\Tercero Maestria\\procesos agiles\\imagenes Kata 2\\carpintero.jpg')
 
         nombreUsuario = driver.find_element_by_id('id_username')
         nombreUsuario.send_keys('juan645')
@@ -74,3 +74,30 @@ class Test(TestCase):
         h2 = self.browser.find_element(By.XPATH, '//h2[text()="Juan Daniel Arevalo"]')
 
         self.assertIn('Juan Daniel Arevalo', h2.text)
+
+    def test_login(self):
+        driver = self.browser
+        driver.get('http://localhost:8000')
+        link = driver.find_element_by_id('id_login')
+        link.click()
+
+        wait = WebDriverWait(driver, 10)
+
+        wait.until(
+            EC.element_to_be_clickable((By.ID, 'login_modal')))
+
+        nombreUsuario = driver.find_element_by_id('id_username')
+        nombreUsuario.send_keys('juan645')
+
+        clave = driver.find_element_by_id('id_password')
+        clave.send_keys('clave123')
+
+        botonIngresar = driver.find_element_by_id('id_grabar')
+        botonIngresar.click()
+
+        wait.until(
+            EC.element_to_be_clickable((By.ID, 'logout')))
+
+        welcome = driver.find_element_by_id('welcome_user')
+
+        self.assertIn('Juan Daniel', welcome.text)
