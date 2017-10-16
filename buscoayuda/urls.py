@@ -7,4 +7,5 @@ urlpatterns = [
     url(r'^register', views.register),
     url(r'^trabajador/(?P<pk>\d+)$', views.detail),
     url(r'^detail', views.detalle_trabajador),
+    url(r'^login$', views.login),
 ]

@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404
+from django.contrib import auth, messages
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core import serializers
@@ -20,6 +21,11 @@ def index(request):
                'form_trabajador': form_trabajador,
                'form_usuario': form_usuario,
                'base_url': settings.STATIC_URL}
+
+    my_user = auth.get_user(request)
+
+    if my_user.is_authenticated:
+        context['user_name'] = trabajadores.filter(usuarioId=my_user).first().nombre
 
     return render(request, 'buscoayuda/index.html', context)
 
@@ -50,9 +56,26 @@ def register(request):
 
     return HttpResponseRedirect('/')
 
+
 def detalle_trabajador(request):
     return render(request, "buscoayuda/detalle.html")
+
 
 def detail(request, pk):
     trabajador = get_object_or_404(Trabajador, pk=pk)
     return HttpResponse(serializers.serialize("json", [trabajador]))
+
+
+def login(request):
+    username = request.POST.get('username', '')
+    password = request.POST.get('password', '')
+    user = auth.authenticate(username=username, password=password)
+    if user is not None:
+        auth.login(request, user)
+        messages.success(request, "Bienvenido al sistema {}".format(
+            username), extra_tags="alert-success")
+        return HttpResponseRedirect('/')
+    else:
+        messages.error(
+            request, "¡El usuario o la contraseña son incorrectos!", extra_tags="alert-danger")
+        return HttpResponseRedirect('/')

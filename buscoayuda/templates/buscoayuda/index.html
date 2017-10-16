@@ -27,11 +27,21 @@
 
 <body>
 <ul class="nav navbar-nav navbar-right" style="padding-right: 20px">
+    {% if user.is_authenticated %}
+    <li>
+      <a href="logout" id="logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
+    </li>
+    {% else %}
     <li><a href="#" id="id_register"><span class="glyphicon glyphicon-user"></span> Registrarse</a></li>
+    <li><a href="#" id="id_login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+    {% endif %}
 </ul>
 <div class="jumbotron" style="padding-left: 20px; height: 50%">
     <h1>Busco Ayuda</h1>
     <p>Encuentra aquí la ayuda que necesitas.</p>
+    {% if user.is_authenticated %}
+    <p id="welcome_user">Bienvenido {{user_name}}</p>
+    {% endif %}
 </div>
 {% if not user.is_authenticated %}
     <form class="navbar-form navbar-right" role="search">
@@ -66,7 +76,9 @@
             </div>
         {% endfor %}
     </div>
-{% endif %} {% include "buscoayuda/registro.html" %}
+{% endif %}
+{% include "buscoayuda/login.html" %}
+{% include "buscoayuda/registro.html" %}
 
 <!--suppress JSUnresolvedFunction -->
 <script>
