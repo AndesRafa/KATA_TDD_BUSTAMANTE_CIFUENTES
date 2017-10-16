@@ -27,7 +27,7 @@
 
 <body>
 <ul class="nav navbar-nav navbar-right" style="padding-right: 20px">
-    {% if user.is_authenticated %}
+    {% if user.is_authenticated and not user.is_superuser %}
         <li>
             <a href="logout" id="logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
         </li>

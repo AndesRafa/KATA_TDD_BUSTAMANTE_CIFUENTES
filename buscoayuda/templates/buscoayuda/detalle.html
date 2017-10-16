@@ -26,6 +26,30 @@
             });
         })();
 
+        mostrarComentarios();
+        function mostrarComentarios(){
+            $.getJSON("/mostrarComentarios/" + trabajador).done(function (data) {
+                $.each(data, function (key, val) {
+
+                    var div='<div style="box-shadow: 2px 2px 5px gray; border-radius: 5px" class="col-md-6 col-md-offset-3">'+
+                                  '<h4>'+val.fields.correo+'</h4>'+
+                                  '<p>'+val.fields.texto+'</p></div>';
+                  $('#comentarios').append(div);
+                })
+            });
+        }
+
+
+        function agregarComentario(){
+          console.log('Pre POST');
+            $.post( "/addComment/", { 'texto': $('#comentario').val(), 'trabajador': trabajador, 'correo': $('#correo').val() })
+              .done(function( data ) {
+                  mostrarComentarios();
+                  console.log('In POST');
+              });
+          console.log('Post POST');
+        }
+
     </script>
 </head>
 <body>
@@ -39,11 +63,28 @@
             <div id="detalle" style="padding-left: 1em" class="media-body">
             </div>
         </div>
+        <div align="center" class="page-header">
+            <h2>Comentarios</h2>
+        </div>
         <div align="right">
             <a href="/" class="btn btn-default btn-default"><span
                     class="glyphicon glyphicon-step-backward">Volver</span></a>
         </div>
     </div>
+</div>
+<div class="row">
+    <div style="box-shadow: 2px 2px 5px gray; border-radius: 5px" class="col-md-6 col-md-offset-3">
+        <form onsubmit="agregarComentario()">
+         <input id="correo" style="margin: 5px;" type="email" required placeholder="Correo">
+         <textarea placeholder="Agreagar comentario" id="comentario" style="margin: 5px;" rows="3" cols="90" required></textarea>
+
+        <button type="submit" style="margin: 5px;" id="comment_submit" class="btn btn-default btn-success" title="Adicionar comentario">Comentar <span class="glyphicon glyphicon-plus"></span>
+      </button>
+        </form>
+
+     </div>
+    </div>
+    <div id="comentarios" class="row">
 </div>
 </body>
 </html>

@@ -42,7 +42,8 @@ class TrabajadorForm(ModelForm):
                                       'placeholder': 'Ingrese sus apellidos'})
     )
     aniosExperiencia = forms.IntegerField(
-        widget=forms.NumberInput(attrs={'class': 'form-control','placeholder': 'Cantidad de a?os de experiencia'}),
+        widget=forms.NumberInput(attrs={'class': 'form-control',
+                                        'placeholder': 'Cantidad de a?os de experiencia'}),
         label='A?os De Experiencia'
     )
 
@@ -65,7 +66,8 @@ class TrabajadorForm(ModelForm):
 
     class Meta:
         model = Trabajador
-        fields = ['nombre', 'apellidos', 'aniosExperiencia','tiposDeServicio', 'telefono', 'correo', 'imagen']
+        fields = ['nombre', 'apellidos', 'aniosExperiencia',
+                  'tiposDeServicio', 'telefono', 'correo', 'imagen']
 
 
 class UserForm(ModelForm):
@@ -82,3 +84,9 @@ class UserForm(ModelForm):
     class Meta:
         model = User
         fields = ['username', 'password']
+
+
+class Comentario(models.Model):
+    texto = models.CharField(max_length=1000)
+    trabajador = models.ForeignKey(Trabajador, null=True)
+    correo = models.CharField(max_length=1000)

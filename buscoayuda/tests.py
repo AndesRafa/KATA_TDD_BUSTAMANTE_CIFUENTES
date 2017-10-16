@@ -183,7 +183,7 @@ class Test(TestCase):
         wait = WebDriverWait(driver, 10)
 
         submit = wait.until(
-            EC.element_to_be_clickable((By.CLASS_NAME, 'btn-success')))
+            EC.element_to_be_clickable((By.ID, 'comment_submit')))
 
         correo = driver.find_element_by_id('correo')
         correo.send_keys(testComment.get('correo'))
@@ -192,6 +192,7 @@ class Test(TestCase):
         comentario.send_keys(testComment.get('comentario'))
 
         submit.click()
+        driver.implicitly_wait(3)
 
         paragraph = driver.find_element(
             By.XPATH, '//h4[text()="{}"]'.format(testComment.get('correo')))
