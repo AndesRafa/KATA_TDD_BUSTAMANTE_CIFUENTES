@@ -28,8 +28,13 @@
 <body>
 <ul class="nav navbar-nav navbar-right" style="padding-right: 20px">
     {% if user.is_authenticated %}
-    <li>
-      <a href="logout" id="logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
+        <li>
+            <a href="logout" id="logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
+        </li>
+        <li>
+            <a id="id_update" href="{% url 'principal:updateUser' %}" >
+            <i class="fa fa-user"></i> {{ user.username }}
+            </a>
     </li>
     {% else %}
     <li><a href="#" id="id_register"><span class="glyphicon glyphicon-user"></span> Registrarse</a></li>
@@ -41,6 +46,7 @@
     <p>Encuentra aquí la ayuda que necesitas.</p>
     {% if user.is_authenticated %}
     <p id="welcome_user">Bienvenido {{user_name}}</p>
+        <p id="welcome_update">Informacion modificada {{user_name}}</p>
     {% endif %}
 </div>
 {% if not user.is_authenticated %}
@@ -79,10 +85,14 @@
 {% endif %}
 {% include "buscoayuda/login.html" %}
 {% include "buscoayuda/registro.html" %}
+{% include "buscoayuda/updateTrabajador.html" %}
 
 <!--suppress JSUnresolvedFunction -->
 <script>
     $(document).ready(function () {
+        $('#id_update').click(function () {
+            $('#update_modal').modal();
+        });
         $('#id_login').click(function () {
             $('#login_modal').modal();
         });

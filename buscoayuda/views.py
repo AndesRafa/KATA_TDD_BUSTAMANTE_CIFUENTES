@@ -4,6 +4,8 @@ from django.contrib import auth, messages
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core import serializers
+from django.urls import reverse
+
 from .models import TiposDeServicio, Trabajador, TrabajadorForm, UserForm
 
 
@@ -59,6 +61,51 @@ def register(request):
 
 def detalle_trabajador(request):
     return render(request, "buscoayuda/detalle.html")
+
+def update_user_view(request):
+
+    if request.method == 'POST':
+        form_trabajador = TrabajadorForm(request.POST, request.FILES)
+
+        if form_trabajador.is_valid():
+            cleaned_data_trabajador = form_trabajador.cleaned_data
+            nombre = cleaned_data_trabajador.get('nombre')
+            apellidos = cleaned_data_trabajador.get('apellidos')
+            aniosExperiencia = cleaned_data_trabajador.get('aniosExperiencia')
+            tiposDeServicio = cleaned_data_trabajador.get('tiposDeServicio')
+            telefono = cleaned_data_trabajador.get('telefono')
+            correo = cleaned_data_trabajador.get('correo')
+            imagen = cleaned_data_trabajador.get('imagen')
+
+            user_model = User.objects.get(username=request.user.username, password=request.user.password)
+
+            app_user_model = Trabajador.objects.get(usuarioId=user_model)
+            app_user_model.nombre=nombre
+            app_user_model.apellidos=apellidos
+            app_user_model.aniosExperiencia=aniosExperiencia
+            app_user_model.tiposDeServicio=tiposDeServicio
+            app_user_model.telefono=telefono
+            app_user_model.correo=correo
+            app_user_model.imagen=imagen
+            app_user_model.save()
+        return HttpResponseRedirect('/')
+
+
+    else:
+            form_trabajador = TrabajadorForm()
+            app_user_model = Trabajador.objects.filter(usuarioId_id=request.user.id).first()
+            form_trabajador.fields["nombre"].initial = app_user_model.nombre
+            form_trabajador.fields["apellidos"].initial = app_user_model.apellidos
+            form_trabajador.fields["aniosExperiencia"].initial = app_user_model.aniosExperiencia
+            form_trabajador.fields["tiposDeServicio"].initial = app_user_model.tiposDeServicio
+            form_trabajador.fields["telefono"].initial = app_user_model.telefono
+            form_trabajador.fields["correo"].initial = app_user_model.correo
+            form_trabajador.fields["imagen"].initial = app_user_model.imagen
+
+            context = {
+            'form_trabajador': form_trabajador
+        }
+            return render(request, 'buscoayuda/updateTrabajador.html', context)
 
 
 
