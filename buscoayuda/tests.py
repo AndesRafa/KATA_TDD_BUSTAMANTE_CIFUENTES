@@ -6,15 +6,14 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from selenium.webdriver.support.ui import WebDriverWait
 
+
 # Create your tests here.
 
 
 class Test(TestCase):
-
     def setUp(self):
-        # self.browser = webdriver.Chrome(
-        #     "C:\\Users\\JUAN CIFUENTES\\chromedriver.exe")
-        self.browser = webdriver.Firefox()
+        self.browser = webdriver.Chrome("C:\\Users\\JUAN CIFUENTES\\chromedriver.exe")
+        #self.browser = webdriver.Firefox()
 
         self.browser.implicitly_wait(2)
 
@@ -52,7 +51,7 @@ class Test(TestCase):
         correo.send_keys('jd.patino1@uniandes.edu.co')
 
         imagen = driver.find_element_by_id('id_imagen')
-        imagen.send_keys('/home/kubuntu/Pictures/daman.jpeg')
+        imagen.send_keys('C:\Users\JUAN CIFUENTES\Desktop\Maestria\Tercero Maestria\procesos agiles\imagenes Kata 2\carpintero.jpg')
 
         nombreUsuario = driver.find_element_by_id('id_username')
         nombreUsuario.send_keys('juan645')
@@ -66,3 +65,12 @@ class Test(TestCase):
         span = driver.find_element(By.XPATH, '//span[text()="Juan Daniel Arevalo"]')
 
         self.assertIn('Juan Daniel Arevalo', span.text)
+
+    def test_verDetalle(self):
+        self.browser.get('http://localhost:8000')
+        span = self.browser.find_element(By.XPATH, '//span[text()="Juan Daniel Arevalo"]')
+        span.click()
+
+        h2 = self.browser.find_element(By.XPATH, '//h2[text()="Juan Daniel Arevalo"]')
+
+        self.assertIn('Juan Daniel Arevalo', h2.text)
