@@ -12,8 +12,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 class Test(TestCase):
     def setUp(self):
-        # self.browser = webdriver.Chrome("C:\\Users\\JUAN CIFUENTES\\chromedriver.exe")
-        self.browser = webdriver.Firefox()
+        self.browser = webdriver.Chrome("C:\\Users\\JUAN CIFUENTES\\chromedriver.exe")
+        #self.browser = webdriver.Firefox()
 
         self.browser.implicitly_wait(2)
 
@@ -101,3 +101,34 @@ class Test(TestCase):
         welcome = driver.find_element_by_id('welcome_user')
 
         self.assertIn('Juan Daniel', welcome.text)
+
+    def test_edit_registro(self):
+        self.browser = webdriver.Chrome("C:\\Users\\JUAN CIFUENTES\\chromedriver.exe")
+        self.browser.get('http://localhost:8000')
+        link = self.browser.find_element_by_id('id_update')
+        link.click()
+
+        nombre = self.browser.find_element_by_id('id_nombre')
+        nombre.send_keys('Diego')
+
+        apellidos = self.browser.find_element_by_id('id_apellidos')
+        apellidos.send_keys('Mora')
+
+        experiencia = self.browser.find_element_by_id('id_aniosExperiencia')
+        experiencia.send_keys('2')
+
+        self.browser.find_element_by_xpath(
+            "//select[@id='id_tiposDeServicio']/option[text()='Carpintero']").click()
+        telefono = self.browser.find_element_by_id('id_telefono')
+        telefono.send_keys('3102698542')
+
+        correo = self.browser.find_element_by_id('id_correo')
+        correo.send_keys('algo.algo@algo.co')
+
+        imagen = self.browser.find_element_by_id('id_imagen')
+        imagen.send_keys(
+            'C:\Users\JUAN CIFUENTES\Desktop\Maestria\Tercero Maestria\procesos agiles\imagenes Kata 2\carpintero.jpg')
+
+        botonGrabar = self.browser.find_element_by_id('grabar')
+        botonGrabar.click()
+

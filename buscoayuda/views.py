@@ -61,6 +61,9 @@ def detalle_trabajador(request):
     return render(request, "buscoayuda/detalle.html")
 
 
+
+
+
 def detail(request, pk):
     trabajador = get_object_or_404(Trabajador, pk=pk)
     return HttpResponse(serializers.serialize("json", [trabajador]))
@@ -77,5 +80,5 @@ def login(request):
         return HttpResponseRedirect('/')
     else:
         messages.error(
-            request, "¡El usuario o la contraseña son incorrectos!", extra_tags="alert-danger")
+            request, "?El usuario o la contrase?a son incorrectos!", extra_tags="alert-danger")
         return HttpResponseRedirect('/')
