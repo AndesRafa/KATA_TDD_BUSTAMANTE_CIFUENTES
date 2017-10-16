@@ -1,10 +1,10 @@
 from django.conf import settings
-from django.shortcuts import render
-
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect
-
+from django.http import HttpResponseRedirect, HttpResponse
+from django.core import serializers
 from .models import TiposDeServicio, Trabajador, TrabajadorForm, UserForm
+
 
 # Create your views here.
 
@@ -49,3 +49,10 @@ def register(request):
         nuevo_trabajador.save()
 
     return HttpResponseRedirect('/')
+
+def detalle_trabajador(request):
+    return render(request, "buscoayuda/detalle.html")
+
+def detail(request, pk):
+    trabajador = get_object_or_404(Trabajador, pk=pk)
+    return HttpResponse(serializers.serialize("json", [trabajador]))

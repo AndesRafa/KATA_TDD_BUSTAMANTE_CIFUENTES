@@ -3,6 +3,7 @@ from django.db import models
 from django.forms import ModelForm
 from django.contrib.auth.models import User
 
+
 # MODEL CLASSES
 
 
@@ -27,6 +28,7 @@ class Trabajador(models.Model):
     imagen = models.ImageField(upload_to='photos')
     usuarioId = models.OneToOneField(User, null=True)
 
+
 # MODEL forms
 
 
@@ -40,31 +42,30 @@ class TrabajadorForm(ModelForm):
                                       'placeholder': 'Ingrese sus apellidos'})
     )
     aniosExperiencia = forms.IntegerField(
-        widget=forms.NumberInput(attrs={'class': 'form-control',
-                                        'placeholder': 'Cantidad de años de experiencia'}),
-        label='Años De Experiencia'
+        widget=forms.NumberInput(attrs={'class': 'form-control','placeholder': 'Cantidad de a?os de experiencia'}),
+        label='A?os De Experiencia'
     )
+
     tiposDeServicio = forms.ModelChoiceField(
         widget=forms.Select(attrs={'class': 'form-control'}),
         queryset=TiposDeServicio.objects.all(),
-        empty_label='Seleccione el tipo de servicio que ofrecerá',
+        empty_label='Seleccione el tipo de servicio que ofrecer?',
         label='Tipo De Servicio'
     )
     telefono = forms.IntegerField(
         widget=forms.NumberInput(attrs={'class': 'form-control',
-                                        'placeholder': 'Número telefónico'}),
-        label='Teléfono'
+                                        'placeholder': 'N?mero telef?nico'}),
+        label='Tel?fono'
     )
     correo = forms.CharField(
         widget=forms.EmailInput(attrs={'class': 'form-control',
-                                       'placeholder': 'Correo electrónico'}),
+                                       'placeholder': 'Correo electr?nico'}),
         label='Correo'
     )
 
     class Meta:
         model = Trabajador
-        fields = ['nombre', 'apellidos', 'aniosExperiencia',
-                  'tiposDeServicio', 'telefono', 'correo', 'imagen']
+        fields = ['nombre', 'apellidos', 'aniosExperiencia','tiposDeServicio', 'telefono', 'correo', 'imagen']
 
 
 class UserForm(ModelForm):
@@ -74,10 +75,10 @@ class UserForm(ModelForm):
     )
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={'class': 'form-control'}),
-        label='Contraseña'
+        label='Contrase?a'
     )
 
-# Create your models here.
+    # Create your models here.
     class Meta:
         model = User
         fields = ['username', 'password']
