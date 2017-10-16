@@ -78,12 +78,12 @@ WSGI_APPLICATION = 'kata_tdd.wsgi.application'
 
 DATABASES = {
     'default': {
-    'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    'NAME': os.environ['POSTGRES_DB_BUSCOAYUDA'],  # 'buscoayuda',
-    'USER': os.environ['POSTGRES_USR'],  # 'catalogobio',
-    'PASSWORD': os.environ['POSTGRES_PWD'],  # 'catalogobio',
-    'HOST': os.environ['POSTGRES_HOST'],  # '127.0.0.1',
-    'PORT': os.environ['POSTGRES_PORT'],  # '5432',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'buscoayuda',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
 
