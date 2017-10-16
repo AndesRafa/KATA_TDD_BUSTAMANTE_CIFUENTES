@@ -12,10 +12,15 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 class Test(TestCase):
     def setUp(self):
-        self.browser = webdriver.Chrome("C:\\Users\\JUAN CIFUENTES\\chromedriver.exe")
-        #self.browser = webdriver.Firefox()
+        # self.browser = webdriver.Chrome("C:\\Users\\JUAN CIFUENTES\\chromedriver.exe")
+        self.browser = webdriver.Firefox()
 
         self.browser.implicitly_wait(2)
+
+        self.testComment = {
+            'correo': 'correo@dominio.com',
+            'comentario': 'Cortez y eficiente!!'
+        }
 
     def tearDown(self):
         self.browser.quit()
@@ -51,7 +56,8 @@ class Test(TestCase):
         correo.send_keys('jd.patino1@uniandes.edu.co')
 
         imagen = driver.find_element_by_id('id_imagen')
-        imagen.send_keys('C:\\Users\\JUAN CIFUENTES\\Desktop\\Maestria\\Tercero Maestria\\procesos agiles\\imagenes Kata 2\\carpintero.jpg')
+        imagen.send_keys(
+            'C:\\Users\\JUAN CIFUENTES\\Desktop\\Maestria\\Tercero Maestria\\procesos agiles\\imagenes Kata 2\\carpintero.jpg')
 
         nombreUsuario = driver.find_element_by_id('id_username')
         nombreUsuario.send_keys('juan645')
@@ -125,7 +131,6 @@ class Test(TestCase):
         wait.until(
             EC.element_to_be_clickable((By.ID, 'id_update')))
 
-
         link = self.browser.find_element_by_id('id_update')
         link.click()
 
@@ -154,7 +159,8 @@ class Test(TestCase):
 
         imagen = self.browser.find_element_by_id('id_imagen')
         imagen.clear()
-        imagen.send_keys('C:\Users\JUAN CIFUENTES\Desktop\Maestria\Tercero Maestria\procesos agiles\imagenes Kata 2\carpintero.jpg')
+        imagen.send_keys(
+            'C:\\Users\\JUAN CIFUENTES\\Desktop\\Maestria\\Tercero Maestria\\procesos agiles\\imagenes Kata 2\\carpintero.jpg')
 
         botonGrabar = self.browser.find_element_by_id('grabar')
         botonGrabar.click()
@@ -165,3 +171,32 @@ class Test(TestCase):
         welcome = driver.find_element_by_id('welcome_update')
         self.assertIn('Cambio', welcome.text)
 
+    def test_comentario(self):
+        testComment = self.testComment
+        driver = self.browser
+        driver.get('http://localhost:8000')
+
+        span = driver.find_element(
+            By.XPATH, '//span[text()="Juan Daniel Arevalo"]')
+        span.click()
+
+        wait = WebDriverWait(driver, 10)
+
+        submit = wait.until(
+            EC.element_to_be_clickable((By.CLASS_NAME, 'btn-success')))
+
+        correo = driver.find_element_by_id('correo')
+        correo.send_keys(testComment.get('correo'))
+
+        comentario = driver.find_element_by_id('comentario')
+        comentario.send_keys(testComment.get('comentario'))
+
+        submit.click()
+
+        paragraph = driver.find_element(
+            By.XPATH, '//h4[text()="{}"]'.format(testComment.get('correo')))
+
+        paragraph = wait.until(
+            EC.element_to_be_clickable((By.XPATH, '//h4[text()="{}"]'.format(testComment.get('correo')))))
+
+        self.assertIn(testComment.get('correo'), paragraph.text)
